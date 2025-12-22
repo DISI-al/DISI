@@ -1,110 +1,58 @@
-# Two-Week Work Plan
+# 两周项目详细规划（含中英文，适用于智能机器人项目）
 
-## Module Implementation Schedule
+## 第一周: 模块准备与硬件调试
 
-### Week 1
-#### Day 1
-- Overview of project requirements and goals.
-- Setup project workspace.
+### 第1-2天：环境配置
+**任务**：
+- 安装Arduino IDE。
+- 配置ESP32-CAM的开发环境。
+- 配置轻量化OpenCV实现人脸检测。
 
-#### Day 2
-- Install necessary development tools.
-- Configure the development environment.
-  
-#### Day 3
-- Begin implementation of voice recognition module.
-- Step-by-step implementation:
-  1. Install required libraries (`speech_recognition` for Python, etc.).
-  2. Set up the microphone.
-  3. Build a basic voice recognition prototype.
+**代码示例**:
+```cpp
+#include <WiFi.h>
+#include "esp_camera.h"
+void setup() {
+    Serial.begin(115200);
+    Serial.println("ESP32-CAM Init...");
+    // 摄像头初始化逻辑省略
+}
+void loop() {
+    //主循环为保持摄像头运行
+}
+```
 
-#### Day 4
-- Integrate voice recognition module into the system.
-- Code Example:
-  ```python
-  import speech_recognition as sr
+### 第3-4天：运动规划模块开发
+**任务**:
+- 配置机器人关节和电机。
+- 使用逆运动学算法规划机械臂运动路径。
+- 开发简易API调用接口。
 
-  recognizer = sr.Recognizer()
-  with sr.Microphone() as source:
-      print("Say something...")
-      audio = recognizer.listen(source)
+**注意事项**:
+确保所有关节运动范围设定合理并校验，防止机械损坏。
 
-  try:
-      print("You said: " + recognizer.recognize_google(audio))
-  except sr.UnknownValueError:
-      print("Could not understand audio")
-  ```
+### 第5-7天：人机交互界面开发
+**任务**:
+- 初始搭建HTML界面，通过HTTP调用模块控制机器人。
+- 设置通信协议与接口。
+- 使用JSON格式传输数据。
 
-#### Day 5
-- Develop ESP32 face detection module.
-- Steps:
-  1. Set up ESP32 environment using Arduino IDE.
-  2. Load face detection libraries and example code.
+## 第二周: 代码集成与测试
 
-#### Day 6
-- Test interaction between ESP32 module and other components.
+### 第8-10天：代码模块整合
+**任务**:
+- 整合所有硬件调试、运动规划与交互界面的代码。
+- 加载测试数据，调试整合问题。
+- 编写自动化测试功能。
 
-#### Day 7
-- Review work for the week and make adjustments as necessary.
+### 第11-12天：异常处理开发
+**任务**:
+- 针对机械部件故障模拟特定场景，确保日志生成。
+- 开发警示通知模块。
+- 错误处理流程完成后更新项目文档。
 
-### Week 2
-#### Day 8
-- Begin motion control implementation.
-  - Example process:
-  ```python
-  import RPi.GPIO as GPIO
-  import time
-
-  GPIO.setmode(GPIO.BCM)
-  GPIO.setup(18, GPIO.OUT)
-
-  pwm = GPIO.PWM(18, 100)
-  pwm.start(5)
-
-  def set_angle(angle):
-      duty = angle / 18 + 2
-      GPIO.output(18, True)
-      pwm.ChangeDutyCycle(duty)
-      time.sleep(1)
-      GPIO.output(18, False)
-      pwm.ChangeDutyCycle(0)
-
-  set_angle(90)
-  ```
-
-#### Day 9
-- Complete integration of motion control module with sensors.
-
-#### Day 10
-- Integrate voice and motion control modules.
-
-#### Day 11
-- Begin sensor usage tests and adjustments.
-  - Integration with ESP32 and Raspberry Pi.
-
-#### Day 12
-- Work on advanced functionality and optimization.
-
-#### Day 13
-- Test the complete system.
-
-#### Day 14
-- Documentation and final reviews.
-
-## Installation Steps
-1. Install Python 3.7 or above.
-2. Install required libraries (e.g., `pip install speech_recognition`, `pip install rpi.gpio`).
-3. Set up ESP32 and Raspberry Pi tools (Arduino IDE, GPIO libraries, etc.).
-
-## Environmental Configuration
-- Configure `ALSA` sound system for voice recognition.
-- Set up GPIO pins for Raspberry Pi (example: pin 18 for motion control).
-- Configure ESP32 WiFi for remote debugging.
-
-## Advanced Integration Logic
-- Synchronize data between voice recognition and motion modules via MQTT or REST APIs.
-- Ensure all hardware operates within specified power ranges.
-
----
-
-This document serves as a guideline for the next two weeks. Please adapt as necessary.
+### 第13-14天：最终集成测试与优化
+**任务**:
+- 调整机械操作速度、增益等各参数优化交互。
+- 运行连续24小时压力测试，确保稳定性。
+- 输出报告：包括CPU/内存资源消耗及操作日志。
